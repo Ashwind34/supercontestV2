@@ -13,6 +13,7 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ChangePicksComponent } from './change-picks/change-picks.component';
+import { GamePickerComponent } from './game-picker/game-picker.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ChangePicksComponent } from './change-picks/change-picks.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    ChangePicksComponent
+    ChangePicksComponent,
+    GamePickerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
