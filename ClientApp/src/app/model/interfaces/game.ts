@@ -1,4 +1,6 @@
-export type Team = ''
+import { Teams } from '../enums/teams';
+
+export type Team = keyof typeof Teams;
 
 export type PickValue = -1 | 0 | 1;
 
