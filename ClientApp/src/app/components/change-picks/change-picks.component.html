@@ -1,12 +1,14 @@
 <div class="container">
-  <p>change-picks works!</p>
+  <app-game-picker></app-game-picker>
   <div>
     <form [formGroup]="form">
-      Pick 1: <input formControlName="pick1" />
-      Pick 2: <input formControlName="pick2" />
-      Pick 3: <input formControlName="pick3" />
-      Pick 4: <input formControlName="pick4" />
-      Pick 5: <input formControlName="pick5" />
+      <div>
+        Pick 1: <input formControlName="pick1" />
+        Pick 2: <input formControlName="pick2" />
+        Pick 3: <input formControlName="pick3" />
+        Pick 4: <input formControlName="pick4" />
+        Pick 5: <input formControlName="pick5" />
+      </div>
     </form>
   </div>
 

@@ -18,8 +18,8 @@ export class ScheduleService {
       awaySpread: -3,
       awayScore: null,
       awayPickValue: null,
-      startDate: null,
-      startTime: null,
+      startDate: '9/8/2022',
+      startTime: '8:20 PM',
     },
     {
       id: 1,
@@ -32,8 +32,8 @@ export class ScheduleService {
       awaySpread: -3,
       awayScore: null,
       awayPickValue: null,
-      startDate: null,
-      startTime: null,
+      startDate: '9/11/2022',
+      startTime: '1:00 PM',
     },
     {
       id: 2,
@@ -46,8 +46,8 @@ export class ScheduleService {
       awaySpread: 7,
       awayScore: null,
       awayPickValue: null,
-      startDate: null,
-      startTime: null,
+      startDate: '9/11/2022',
+      startTime: '1:00 PM',
     },
     {
       id: 0,
@@ -60,8 +60,8 @@ export class ScheduleService {
       awaySpread: -10,
       awayScore: null,
       awayPickValue: null,
-      startDate: null,
-      startTime: null,
+      startDate: '9/11/2022',
+      startTime: '1:00 PM',
     },
   ]
 

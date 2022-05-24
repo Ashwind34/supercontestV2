@@ -1,1 +1,19 @@
-<p>game-picker works!</p>
+<div class="card-container" *ngFor="let game of schedule">
+  <div class="game-card">
+    <div class="game-row">
+      <div>
+        <div>{{game.awayTeam}}</div>
+        <div class="block-center">{{game.awaySpread}}</div>
+        <input class="block-center" type="checkbox" />
+      </div>
+      <div class="big-font">@</div>
+      <div>
+        <div>{{game.homeTeam}}</div>
+        <div class="block-center">{{game.homeSpread}}</div>
+        <input class="block-center" type="checkbox" />
+      </div>
+    </div>
+    <div class="game-row">{{game.startDate}}</div>
+    <div class="game-row">{{game.startTime}}</div>
+  </div>
+</div>
