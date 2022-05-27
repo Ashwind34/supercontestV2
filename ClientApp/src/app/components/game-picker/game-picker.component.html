@@ -4,7 +4,7 @@
       <div>
         <div>{{game.awayTeam}}</div>
         <div class="block-center">{{game.awaySpread}}</div>
-        <input class="block-center" type="checkbox" />
+        <input class="block-center" type="checkbox" (change)="onChange($event)"/>
       </div>
       <div class="big-font">@</div>
       <div>

@@ -17,4 +17,8 @@ export class GamePickerComponent implements OnInit {
     this.schedule = this.scheduleService.getSchedule();
   }
 
+  onChange($event) {
+    console.log('event', $event.target.checked)
+  }
+
 }
