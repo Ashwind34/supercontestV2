@@ -1,11 +1,17 @@
-<div>
-  <div>{{game.awayTeam}}</div>
-  <div class="block-center">{{game.awaySpread}}</div>
-  <input class="block-center" type="checkbox" (change)="onChange($event, game.awayTeam, game.awaySpread)"/>
-</div>
-<div class="big-font">@</div>
-<div>
-  <div>{{game.homeTeam}}</div>
-  <div class="block-center">{{game.homeSpread}}</div>
-  <input class="block-center" type="checkbox" (change)="onChange($event, game.homeTeam, game.homeSpread)"/>
+<div class="game-card">
+  <div class="game-row">
+    <div>
+      <div>{{game.awayTeam}}</div>
+      <div class="block-center">{{game.awaySpread}}</div>
+      <input class="block-center" type="checkbox" (change)="onChange($event, game.awayTeam, game.awaySpread)"/>
+    </div>
+    <div class="big-font">@</div>
+    <div>
+      <div>{{game.homeTeam}}</div>
+      <div class="block-center">{{game.homeSpread}}</div>
+      <input class="block-center" type="checkbox" (change)="onChange($event, game.homeTeam, game.homeSpread)"/>
+    </div>
+  </div>
+  <div class="game-row">{{game.startDate}}</div>
+  <div class="game-row">{{game.startTime}}</div>
 </div>

@@ -1,9 +1,3 @@
 <div class="card-container" *ngFor="let game of schedule">
-  <div class="game-card">
-    <div class="game-row">
-      <app-game-picker-control [game]="game"></app-game-picker-control>
-    </div>
-    <div class="game-row">{{game.startDate}}</div>
-    <div class="game-row">{{game.startTime}}</div>
-  </div>
+  <app-game-picker-control [game]="game"></app-game-picker-control>
 </div>
