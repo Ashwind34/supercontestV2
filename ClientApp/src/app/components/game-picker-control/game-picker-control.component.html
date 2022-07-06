@@ -1,6 +1,7 @@
 <div class="game-card">
   <div class="game-row">
     <div class="block-center" [ngClass]="{disabled: isHomeSelected, selected: isAwaySelected}">
+      <app-logo-image [team]="game.awayTeam"></app-logo-image>
       <div>{{game.awayTeam}}</div>
       <div><span *ngIf="game.awaySpread > 0">+</span>{{game.awaySpread}}</div>
       <input
@@ -11,6 +12,7 @@
     </div>
     <div class="big-font">@</div>
     <div class="block-center" [ngClass]="{disabled: isAwaySelected, selected: isHomeSelected}">
+      <app-logo-image [team]="game.homeTeam"></app-logo-image>
       <div>{{game.homeTeam}}</div>
       <div><span *ngIf="game.homeSpread > 0">+</span>{{game.homeSpread}}</div>
       <input

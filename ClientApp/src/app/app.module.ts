@@ -16,6 +16,7 @@ import { ChangePicksComponent } from './components/change-picks/change-picks.com
 import { GamePickerComponent } from './components/game-picker/game-picker.component';
 import { GamePickerControlComponent } from './components/game-picker-control/game-picker-control.component';
 import { CurrentPicksDisplayComponent } from './components/current-picks-display/current-picks-display.component';
+import { LogoImageComponent } from './components/logo-image/logo-image.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CurrentPicksDisplayComponent } from './components/current-picks-display
     ChangePicksComponent,
     GamePickerComponent,
     GamePickerControlComponent,
-    CurrentPicksDisplayComponent
+    CurrentPicksDisplayComponent,
+    LogoImageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
