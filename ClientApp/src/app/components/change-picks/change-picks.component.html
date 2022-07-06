@@ -1,17 +1,5 @@
 <div class="container">
   <app-game-picker></app-game-picker>
-  <div>
-    <form [formGroup]="form">
-      <div>
-        Pick 1: <input formControlName="pick1" />
-        Pick 2: <input formControlName="pick2" />
-        Pick 3: <input formControlName="pick3" />
-        Pick 4: <input formControlName="pick4" />
-        Pick 5: <input formControlName="pick5" />
-      </div>
-    </form>
-  </div>
-
   <div>Pick 1: {{form.get("pick1").value}}</div>
   <div>Pick 2: {{form.get("pick2").value}}</div>
   <div>Pick 3: {{form.get("pick3").value}}</div>
