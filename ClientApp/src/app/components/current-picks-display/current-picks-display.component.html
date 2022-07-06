@@ -1,0 +1,12 @@
+<div class="picks-container">
+  <ng-container  *ngFor="let pick of picks; let i = index">
+    <div>Pick {{i + 1}}:
+      <ng-container *ngIf="picks[i]; else notSelected">
+        {{picks[i].team}} <span *ngIf="picks[i].spread > 0">+</span>{{picks[i].spread}}
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #notSelected>Not Selected</ng-template>
+</div>
+
+

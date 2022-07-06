@@ -1,0 +1,9 @@
+.picks-container {
+  padding: 1em;
+  border: 2px dotted blue;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}

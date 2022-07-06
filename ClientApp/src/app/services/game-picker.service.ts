@@ -13,7 +13,7 @@ export interface TeamSelectionEvent {
 })
 export class GamePickerService {
 
-  private currentPicks$: BehaviorSubject<TeamSelectionEvent[]> = new BehaviorSubject([])
+  private currentPicks$: BehaviorSubject<TeamSelectionEvent[]> = new BehaviorSubject(new Array(5))
 
   constructor() { }
 
@@ -24,12 +24,15 @@ export class GamePickerService {
   updatePicks(event: TeamSelectionEvent): void {
     const existingPicks: TeamSelectionEvent[] = this.currentPicks$.value;
     if (event.checked) {
-      existingPicks.push(event);
-      this.currentPicks$.next(existingPicks);
+      const firstUndefinedIndex = existingPicks.findIndex(item => !item);
+      const indexToReplace = (firstUndefinedIndex > -1) ? firstUndefinedIndex : 4;
+      existingPicks.splice(indexToReplace, 1, event)
     } else {
-      const filteredPicks = existingPicks.filter(pick => pick.team !== event.team);
-      this.currentPicks$.next(filteredPicks);
+      const indexOfTeamToRemove = existingPicks.findIndex(item => item.team === event.team);
+      existingPicks.splice(indexOfTeamToRemove, 1)
+      existingPicks.push(undefined)
     }
+    this.currentPicks$.next(existingPicks);
   }
 
 

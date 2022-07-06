@@ -15,6 +15,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { ChangePicksComponent } from './components/change-picks/change-picks.component';
 import { GamePickerComponent } from './components/game-picker/game-picker.component';
 import { GamePickerControlComponent } from './components/game-picker-control/game-picker-control.component';
+import { CurrentPicksDisplayComponent } from './components/current-picks-display/current-picks-display.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { GamePickerControlComponent } from './components/game-picker-control/gam
     FetchDataComponent,
     ChangePicksComponent,
     GamePickerComponent,
-    GamePickerControlComponent
+    GamePickerControlComponent,
+    CurrentPicksDisplayComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

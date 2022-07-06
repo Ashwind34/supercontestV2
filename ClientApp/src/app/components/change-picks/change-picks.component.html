@@ -1,7 +1,5 @@
 <div class="container">
   <app-game-picker></app-game-picker>
-  <ng-container *ngFor="let pick of getCurrentPicks$() | async; let i = index">
-    <div>Pick {{i + 1}}: {{pick.team}} <span *ngIf="pick.spread > 0">+</span>{{pick.spread}}</div>
-  </ng-container>
+  <app-current-picks-display></app-current-picks-display>
 </div>
 
