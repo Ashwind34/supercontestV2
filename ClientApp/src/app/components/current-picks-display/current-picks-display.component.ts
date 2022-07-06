@@ -1,6 +1,7 @@
-import { GamePickerService, TeamSelectionEvent } from './../../services/game-picker.service';
+import { GamePickerService } from './../../services/game-picker.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { TeamSelection } from 'src/app/model/interfaces/team-selection';
 
 @Component({
   selector: 'app-current-picks-display',
@@ -11,7 +12,7 @@ export class CurrentPicksDisplayComponent implements OnInit {
 
   subscription: Subscription = new Subscription();
 
-  picks: TeamSelectionEvent[] = [];
+  picks: TeamSelection[] = [];
 
   constructor(private gamePickerService: GamePickerService) { }
 
