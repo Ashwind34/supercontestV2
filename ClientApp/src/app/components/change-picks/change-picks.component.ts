@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { GamePickerService } from './../../services/game-picker.service';
 
 
 @Component({
@@ -9,20 +9,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ChangePicksComponent implements OnInit {
 
-  public form: FormGroup;
-
-  constructor() { }
+  constructor(private gamePickerService: GamePickerService) { }
 
   ngOnInit(): void {
-    this.form = new FormGroup(
-      {
-        pick1: new FormControl(''),
-        pick2: new FormControl(''),
-        pick3: new FormControl(''),
-        pick4: new FormControl(''),
-        pick5: new FormControl('')
-      }
-    )
+
+  }
+
+  getCurrentPicks$() {
+    return this.gamePickerService.getCurrentPicks$();
   }
 
 }
