@@ -1,3 +1,5 @@
-<div class="card-container" *ngFor="let game of schedule">
-  <app-game-picker-control [game]="game"></app-game-picker-control>
+<div class="card-container">
+  <ng-container  *ngFor="let game of schedule">
+    <app-game-picker-control [game]="game"></app-game-picker-control>
+  </ng-container>
 </div>
