@@ -7,7 +7,27 @@ import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-sele
 })
 export class GamePickerService {
 
-  private currentPicks$: BehaviorSubject<TeamSelection[]> = new BehaviorSubject(new Array(5))
+  testData: TeamSelection[] = [
+    {
+        "team": "BUF",
+        "spread": -3
+    },
+    {
+        "team": "ATL",
+        "spread": 3
+    },
+    {
+        "team": "PIT",
+        "spread": 7
+    },
+    {
+        "team": "DET",
+        "spread": 10
+    },
+    undefined
+  ]
+
+  private currentPicks$: BehaviorSubject<TeamSelection[]> = new BehaviorSubject(this.testData)
 
   constructor() { }
 
