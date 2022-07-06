@@ -16,7 +16,7 @@
 }
 
 .big-font {
-  font-size: 2em;
+  font-size: 2rem;
 }
 
 .block-center {
@@ -35,5 +35,11 @@
   color: green;
   border-color: green;
   font-weight: bold;
+}
+
+input[type="checkbox"] {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-top: 0.5rem;
 }
 
