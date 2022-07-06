@@ -1,15 +1,23 @@
 <div class="game-card">
   <div class="game-row">
-    <div>
+    <div class="block-center" [ngClass]="{disabled: isHomeSelected, selected: isAwaySelected}">
       <div>{{game.awayTeam}}</div>
-      <div class="block-center">{{game.awaySpread}}</div>
-      <input class="block-center" type="checkbox" (change)="onChange($event, game.awayTeam, game.awaySpread)"/>
+      <div><span *ngIf="game.awaySpread > 0">+</span>{{game.awaySpread}}</div>
+      <input
+        type="checkbox"
+        (change)="onChange($event, game.awayTeam, game.awaySpread)"
+        [checked]="isAwaySelected"
+        [disabled]="isHomeSelected"/>
     </div>
     <div class="big-font">@</div>
-    <div>
+    <div class="block-center" [ngClass]="{disabled: isAwaySelected, selected: isHomeSelected}">
       <div>{{game.homeTeam}}</div>
-      <div class="block-center">{{game.homeSpread}}</div>
-      <input class="block-center" type="checkbox" (change)="onChange($event, game.homeTeam, game.homeSpread)"/>
+      <div><span *ngIf="game.homeSpread > 0">+</span>{{game.homeSpread}}</div>
+      <input
+        type="checkbox"
+        (change)="onChange($event, game.homeTeam, game.homeSpread)"
+        [checked]="isHomeSelected"
+        [disabled]="isAwaySelected"/>
     </div>
   </div>
   <div class="game-row">{{game.startDate}}</div>

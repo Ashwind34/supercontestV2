@@ -7,7 +7,7 @@
 
 .game-card {
     display: block;
-    width: 10rem;
+    width: 15rem;
     margin: 1rem;
     padding: 0.5rem;
     border: 1px solid black;
@@ -21,5 +21,19 @@
 
 .block-center {
   text-align: center;
+  padding: 0.5rem;
+  border: 0.5px solid transparent;
+  border-radius: 4px;
+  width: 4rem;
+}
+
+.disabled {
+  opacity: 60%;
+}
+
+.selected {
+  color: green;
+  border-color: green;
+  font-weight: bold;
 }
 
