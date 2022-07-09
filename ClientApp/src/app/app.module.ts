@@ -17,6 +17,7 @@ import { GamePickerComponent } from './components/game-picker/game-picker.compon
 import { GamePickerControlComponent } from './components/game-picker-control/game-picker-control.component';
 import { CurrentPicksDisplayComponent } from './components/current-picks-display/current-picks-display.component';
 import { LogoImageComponent } from './components/logo-image/logo-image.component';
+import { DateClockComponent } from './components/date-clock/date-clock.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { LogoImageComponent } from './components/logo-image/logo-image.component
     GamePickerComponent,
     GamePickerControlComponent,
     CurrentPicksDisplayComponent,
-    LogoImageComponent
+    LogoImageComponent,
+    DateClockComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
