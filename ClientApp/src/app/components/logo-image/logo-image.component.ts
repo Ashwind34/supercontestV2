@@ -9,7 +9,7 @@ import { Team } from 'src/app/model/interfaces/game';
 export class LogoImageComponent implements OnInit {
 
   @Input() team: Team;
-  @Input() width: number = 48;
+  @Input() height: number = 32;
 
   private readonly logoFolderPath: string = './assets/logos';
 
