@@ -24,7 +24,10 @@ export class CurrentPicksDisplayComponent implements OnInit {
         }
       )
     )
+  }
 
+  savePicks(): void {
+    this.gamePickerService.savePicks(this.picks);
   }
 
 }

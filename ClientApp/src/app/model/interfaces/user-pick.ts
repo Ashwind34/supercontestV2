@@ -1,5 +1,5 @@
 export interface UserPick {
-  id: string;
+  id?: string;
   userId: string;
   week: number;
   createdOn: string;

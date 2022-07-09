@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
+import { UserPick } from '../model/interfaces/user-pick';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,25 @@ export class GamePickerService {
     }
     this.currentPicks$.next(existingPicks);
   }
+
+  savePicks(picks: TeamSelection[]) {
+    const picksUpdate: UserPick = {
+      userId: '',
+      week: 1,
+      createdOn: new Date().toISOString(),
+      pick1: picks[0]?.team,
+      pick2: picks[1]?.team,
+      pick3: picks[2]?.team,
+      pick4: picks[3]?.team,
+      pick5: picks[4]?.team,
+    }
+
+    console.log(picksUpdate)
+
+    // TODO - add POST API call here.
+
+  }
+
 
 
 
