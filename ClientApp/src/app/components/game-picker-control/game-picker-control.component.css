@@ -36,6 +36,7 @@
   color: green;
   border-color: green;
   font-weight: bold;
+  opacity: 100% !important
 }
 
 input[type="checkbox"] {
