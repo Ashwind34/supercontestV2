@@ -42,7 +42,7 @@ import { DateClockComponent } from './components/date-clock/date-clock.component
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
-      { path: 'change-picks', component: ChangePicksComponent },
+      { path: 'change-picks', component: ChangePicksComponent, canActivate: [AuthorizeGuard] },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
     ])
   ],

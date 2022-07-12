@@ -1,7 +1,9 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
 import { UserPick } from '../model/interfaces/user-pick';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { map, tap, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,7 @@ export class GamePickerService {
 
   private currentPicks$: BehaviorSubject<TeamSelection[]> = new BehaviorSubject(this.testData)
 
-  constructor() { }
+  constructor(private authService: AuthorizeService) { }
 
   getCurrentPicks$() {
     return this.currentPicks$.asObservable();
@@ -51,21 +53,31 @@ export class GamePickerService {
     this.currentPicks$.next(existingPicks);
   }
 
-  savePicks(picks: TeamSelection[]) {
-    const picksUpdate: UserPick = {
-      userId: '',
-      week: 1,
-      createdOn: new Date().toISOString(),
-      pick1: picks[0]?.team,
-      pick2: picks[1]?.team,
-      pick3: picks[2]?.team,
-      pick4: picks[3]?.team,
-      pick5: picks[4]?.team,
-    }
+  savePicks$(picks: TeamSelection[]): Observable<UserPick> {
+    return this.authService.getUser().pipe(
+      map(user => {
+        const picksUpdate: UserPick = {
+          userId: user['sub'],
+          week: 1,
+          createdOn: new Date().toISOString(),
+          pick1: picks[0]?.team,
+          pick2: picks[1]?.team,
+          pick3: picks[2]?.team,
+          pick4: picks[3]?.team,
+          pick5: picks[4]?.team,
+        }
 
-    console.log(picksUpdate)
+        return picksUpdate
+      }),
+      tap(picks => console.log('picks to save', picks)),
+      switchMap(picks => {
+        // TODO - add POST API call here.
+        return of(picks)
+      })
+    )
 
-    // TODO - add POST API call here.
+
+
 
   }
 
