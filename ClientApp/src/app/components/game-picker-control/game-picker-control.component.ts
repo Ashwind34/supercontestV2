@@ -35,7 +35,8 @@ export class GamePickerControlComponent implements OnInit {
     const isAllPicksSelected = picks.every(pick => pick !== undefined);
     const rightNow = Date.now();
     const gameDateTime = new Date(this.game.startDate + ' ' + this.game.startTime);
-    const hasGameStarted = (rightNow > gameDateTime.getTime());
+    // const hasGameStarted = (rightNow > gameDateTime.getTime());
+    const hasGameStarted = false;
 
     if (hasGameStarted) {
       this.isHomeDisabled = true;
