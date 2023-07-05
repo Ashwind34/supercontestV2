@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using supercontestV2.Models;
 
 namespace  supercontestV2.Areas.Identity.Pages.Account.Manage
 {
