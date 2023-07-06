@@ -29,7 +29,7 @@
             </div>
             <br />
             <div class="form-floating">
-                <input asp-for="Input.FavTeam" class="form-control" />
+                <select asp-for="Input.FavTeam" class="form-control" asp-items="Html.GetEnumSelectList<Team>()"></select>
                 <label asp-for="Input.FavTeam" class="form-label"></label>
                 <span asp-validation-for="Input.FavTeam" class="text-danger"></span>
             </div>

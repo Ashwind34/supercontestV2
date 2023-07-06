@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using supercontestV2.Models;
+using supercontestV2.Constants;
 
 namespace supercontestV2.Areas.Identity.Pages.Account.Manage
 {
@@ -70,7 +71,7 @@ namespace supercontestV2.Areas.Identity.Pages.Account.Manage
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Favorite Team")]
-            public string FavTeam { get; set; }
+            public Team FavTeam { get; set; }
          
             [Phone]
             [Display(Name = "Phone number")]

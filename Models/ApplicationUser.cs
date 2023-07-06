@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using supercontestV2.Constants;
 
 namespace supercontestV2.Models
 {
@@ -6,7 +7,7 @@ namespace supercontestV2.Models
     {
         public string FirstName {  get; set; }
         public string LastName { get; set; }  
-        public string FavTeam { get; set; }
+        public Team FavTeam { get; set; }
 
     }
 }

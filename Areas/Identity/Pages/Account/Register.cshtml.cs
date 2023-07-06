@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using supercontestV2.Models;
+using supercontestV2.Constants;
 
 namespace supercontestV2.Areas.Identity.Pages.Account
 {
@@ -84,7 +85,7 @@ namespace supercontestV2.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Favorite Team")]
             [DataType(DataType.Text)]
-            public string FavTeam { get; set; }
+            public Team FavTeam { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.

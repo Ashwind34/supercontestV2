@@ -43,7 +43,9 @@
             </div>
             <br />
             <div class="form-floating">
-                <input asp-for="Input.FavTeam" class="form-control" />
+                <select asp-for="Input.FavTeam" class="form-control" asp-items="Html.GetEnumSelectList<Team>()">
+                    <option value="">Select NFL Team</option>
+                </select>
                 <label asp-for="Input.FavTeam"></label>
                 <span asp-validation-for="Input.FavTeam" class="text-danger"></span>
             </div>
