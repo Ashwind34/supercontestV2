@@ -11,7 +11,8 @@ namespace supercontestV2.Data
         public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options, operationalStoreOptions)
         {
-
         }
+        public virtual DbSet<UserPick> UserPicks { get; set; }
+
     }
 }

@@ -2,7 +2,8 @@ export interface UserPick {
   id?: string;
   userId: string;
   week: number;
-  createdOn: string;
+  createdOn: Date;
+  updatedOn?: Date;
   pick1: string;
   pick2: string;
   pick3: string;

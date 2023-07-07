@@ -59,7 +59,8 @@ export class GamePickerService {
         const picksUpdate: UserPick = {
           userId: user['sub'],
           week: 1,
-          createdOn: new Date().toISOString(),
+          createdOn: new Date(),
+          updatedOn: null,
           pick1: picks[0]?.team,
           pick2: picks[1]?.team,
           pick3: picks[2]?.team,
