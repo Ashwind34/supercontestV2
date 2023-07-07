@@ -12,25 +12,6 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 })
 export class GamePickerService {
 
-  testData: TeamSelection[] = [
-    {
-        "team": "BUF",
-        "spread": -3
-    },
-    {
-        "team": "ATL",
-        "spread": 3
-    },
-    {
-        "team": "PIT",
-        "spread": 7
-    },
-    {
-        "team": "DET",
-        "spread": 10
-    },
-    undefined
-  ]
 
   private currentPicks$: BehaviorSubject<TeamSelection[] | null> = new BehaviorSubject(null)
 
@@ -50,9 +31,34 @@ export class GamePickerService {
       take(1),
       map((user: IUser) => user['sub']),
       switchMap((userId: string) => {
-        return this.http.get(`api/UserPicks/${week}/${userId}`)
+        return this.http.get(`api/UserPicks/${week}/${userId}`) as Observable<UserPick>
       }),
-      tap(httpResponse => console.log('res', httpResponse))
+      tap(httpResponse => console.log('res', httpResponse)),
+      map((picks: UserPick) => {
+        const currentPicks: TeamSelection[] = [];
+        for (const prop in picks) {
+          if (prop.includes('pick')) {
+            if (picks[prop]) {
+              currentPicks.push({
+                team: picks[prop]
+              })
+            }
+          }
+        }
+
+        if (currentPicks.length < 5) {
+          let spotsToFill = 5 - currentPicks.length;
+          while (spotsToFill > 0) {
+            currentPicks.push(undefined)
+            spotsToFill -= 1;
+          }
+        }
+
+        return currentPicks;
+      }),
+      tap((currentPicks: TeamSelection[]) => {
+        this.currentPicks$.next(currentPicks);
+      })
 
     )
   }
@@ -98,10 +104,6 @@ export class GamePickerService {
         return this.http.post(`api/UserPicks`, picks)
       })
     )
-
-
-
-
   }
 
 

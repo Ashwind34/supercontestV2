@@ -22,9 +22,17 @@ export class GamePickerControlComponent implements OnInit {
   ngOnInit(): void {
     this.gamePickerService.getCurrentPicks$().subscribe(
       currentPicks => {
-        this.isHomeSelected = currentPicks.some(pick => pick?.team === this.game.homeTeam)
-        this.isAwaySelected = currentPicks.some(pick => pick?.team === this.game.awayTeam)
-        this.disableCheckboxes(currentPicks, this.isHomeSelected, this.isAwaySelected)
+        if (currentPicks) {
+          this.isHomeSelected = currentPicks.some(pick => pick?.team === this.game.homeTeam)
+          this.isAwaySelected = currentPicks.some(pick => pick?.team === this.game.awayTeam)
+          this.disableCheckboxes(currentPicks, this.isHomeSelected, this.isAwaySelected)
+        }
+
+        if (this.game.id === 0) {
+          console.log(this.game)
+          console.log(currentPicks)
+        }
+
       }
     )
   }
