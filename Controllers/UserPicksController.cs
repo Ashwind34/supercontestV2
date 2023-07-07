@@ -50,6 +50,24 @@ namespace supercontestV2.Controllers
             return userPick;
         }
 
+        // GET: api/UserPicks/5
+        [HttpGet("{week}/{UserId}")]
+        public async Task<ActionResult<UserPick>> GetUserPickByWeek(int week, string UserId)
+        {
+            if (_context.UserPicks == null)
+            {
+                return NotFound();
+            }
+            var userPick =  await _context.UserPicks.Where(pick => pick.UserId == UserId && pick.week == week).FirstOrDefaultAsync();
+
+            if (userPick == null)
+            {
+                return NotFound();
+            }
+
+            return userPick;
+        }
+
         // PUT: api/UserPicks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

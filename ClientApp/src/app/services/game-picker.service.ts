@@ -1,10 +1,11 @@
+import { IUser } from './../../api-authorization/authorize.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
 import { UserPick } from '../model/interfaces/user-pick';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class GamePickerService {
     undefined
   ]
 
-  private currentPicks$: BehaviorSubject<TeamSelection[]> = new BehaviorSubject(this.testData)
+  private currentPicks$: BehaviorSubject<TeamSelection[] | null> = new BehaviorSubject(null)
 
   baseUrl: string;
 
@@ -41,6 +42,19 @@ export class GamePickerService {
     @Inject('BASE_URL') baseUrl: string
   ) {
     this.baseUrl = baseUrl;
+  }
+
+  initCurrentPicks$() {
+    const week = 1;
+    return this.authService.getUser().pipe(
+      take(1),
+      map((user: IUser) => user['sub']),
+      switchMap((userId: string) => {
+        return this.http.get(`api/UserPicks/${week}/${userId}`)
+      }),
+      tap(httpResponse => console.log('res', httpResponse))
+
+    )
   }
 
   getCurrentPicks$() {
