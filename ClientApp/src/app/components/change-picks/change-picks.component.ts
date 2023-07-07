@@ -12,9 +12,7 @@ export class ChangePicksComponent implements OnInit {
 
   constructor(private gamePickerService: GamePickerService, private authorizeService: AuthorizeService) { }
 
-  ngOnInit(): void {
-    this.authorizeService.getUser().subscribe(x => console.log('user', x))
-  }
+  ngOnInit(): void { }
 
   getCurrentPicks$() {
     return this.gamePickerService.getCurrentPicks$();

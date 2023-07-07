@@ -1,9 +1,10 @@
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
 import { UserPick } from '../model/interfaces/user-pick';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,15 @@ export class GamePickerService {
 
   private currentPicks$: BehaviorSubject<TeamSelection[]> = new BehaviorSubject(this.testData)
 
-  constructor(private authService: AuthorizeService) { }
+  baseUrl: string;
+
+  constructor(
+    private authService: AuthorizeService,
+    private http: HttpClient,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   getCurrentPicks$() {
     return this.currentPicks$.asObservable();
@@ -53,14 +62,15 @@ export class GamePickerService {
     this.currentPicks$.next(existingPicks);
   }
 
-  savePicks$(picks: TeamSelection[]): Observable<UserPick> {
+  savePicks$(picks: TeamSelection[]): Observable<any> {
     return this.authService.getUser().pipe(
+      take(1),
       map(user => {
         const picksUpdate: UserPick = {
           userId: user['sub'],
           week: 1,
           createdOn: new Date(),
-          updatedOn: null,
+          updatedOn: new Date(),
           pick1: picks[0]?.team,
           pick2: picks[1]?.team,
           pick3: picks[2]?.team,
@@ -70,10 +80,8 @@ export class GamePickerService {
 
         return picksUpdate
       }),
-      tap(picks => console.log('picks to save', picks)),
       switchMap(picks => {
-        // TODO - add POST API call here.
-        return of(picks)
+        return this.http.post(`api/UserPicks`, picks)
       })
     )
 

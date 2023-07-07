@@ -17,6 +17,7 @@ export class CurrentPicksDisplayComponent implements OnInit {
   constructor(private gamePickerService: GamePickerService) { }
 
   ngOnInit(): void {
+    // TODO - unsubscribe
     this.subscription.add(
       this.gamePickerService.getCurrentPicks$().subscribe(
         picks => {
@@ -27,6 +28,7 @@ export class CurrentPicksDisplayComponent implements OnInit {
   }
 
   savePicks(): void {
+    // TODO - confirm if we need to unsubscribe here
     this.subscription.add(
       this.gamePickerService.savePicks$(this.picks).subscribe()
     )
