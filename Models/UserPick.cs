@@ -8,9 +8,17 @@
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
         public string? Pick1 { get; set; }
+        public int? Spread1 { get; set; }
         public string? Pick2 { get; set; }
+        public int? Spread2 { get; set; }
         public string? Pick3 { get; set; }
+        public int? Spread3 { get; set; }
         public string? Pick4 { get; set; }
+        public int? Spread4 { get; set; }
         public string? Pick5 { get; set; }
+        public int? Spread5 { get; set; }
+
+
+
     }
 }

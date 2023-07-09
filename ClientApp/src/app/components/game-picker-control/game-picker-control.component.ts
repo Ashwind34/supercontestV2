@@ -2,6 +2,7 @@ import { GamePickerService } from './../../services/game-picker.service';
 import { Game, Team } from './../../model/interfaces/game';
 import { Component, Input, OnInit } from '@angular/core';
 import { TeamSelection } from 'src/app/model/interfaces/team-selection';
+import { UserPick } from '../../model/classes/user-pick';
 
 @Component({
   selector: 'app-game-picker-control',
@@ -37,10 +38,11 @@ export class GamePickerControlComponent implements OnInit {
     )
   }
 
+
   disableCheckboxes(picks: TeamSelection[], isHomeSelected: boolean, isAwaySelected: boolean): void {
     this.isHomeDisabled = false;
     this.isAwayDisabled = false;
-    const isAllPicksSelected = picks.every(pick => pick !== undefined);
+    const isAllPicksSelected = picks.every(pick => pick.team);
     const rightNow = Date.now();
     const gameDateTime = new Date(this.game.startDate + ' ' + this.game.startTime);
     // const hasGameStarted = (rightNow > gameDateTime.getTime());
