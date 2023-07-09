@@ -1,7 +1,7 @@
 import { IUser } from './../../api-authorization/authorize.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
@@ -13,18 +13,16 @@ import { Team } from '../model/interfaces/game';
 })
 export class GamePickerService {
 
-
   private currentPicks$: BehaviorSubject<TeamSelection[] | null> = new BehaviorSubject(null)
+
+  private lastSavedPick: UserPick;
 
   baseUrl: string;
 
   constructor(
     private authService: AuthorizeService,
-    private http: HttpClient,
-    @Inject('BASE_URL') baseUrl: string
-  ) {
-    this.baseUrl = baseUrl;
-  }
+    private http: HttpClient
+  ) { }
 
   getUserPicks(userId: string, week: number): Observable<UserPick> {
     return this.http.get(`api/UserPicks/${week}/${userId}`) as Observable<UserPick>
@@ -74,25 +72,8 @@ export class GamePickerService {
           }))
       }),
       map((pickRecord: UserPick) => {
-
+        this.lastSavedPick = pickRecord;
         const currentPicks = this.parseUserPick(pickRecord);
-        // const currentPicks: TeamSelection[] = [];
-        // for (const prop in picks) {
-        //   if (prop.includes('pick')) {
-        //       currentPicks.push({
-        //         team: picks[prop]
-        //       })
-        //   }
-        // }
-
-        // if (currentPicks.length < 5) {
-        //   let spotsToFill = 5 - currentPicks.length;
-        //   while (spotsToFill > 0) {
-        //     currentPicks.push(undefined)
-        //     spotsToFill -= 1;
-        //   }
-        // }
-
         return currentPicks;
       }),
       tap((currentPicks: TeamSelection[]) => {
@@ -127,32 +108,34 @@ export class GamePickerService {
   }
 
   savePicks$(picks: TeamSelection[]): Observable<any> {
-    return this.authService.getUser().pipe(
-      take(1),
-      map(user => {
-        const picksUpdate: UserPick = {
-          userId: user['sub'],
-          week: 1,
-          createdOn: new Date(),
-          updatedOn: new Date(),
-          pick1: picks[0]?.team,
-          spread1: picks[0]?.spread,
-          pick2: picks[1]?.team,
-          spread2: picks[1]?.spread,
-          pick3: picks[2]?.team,
-          spread3: picks[2]?.spread,
-          pick4: picks[3]?.team,
-          spread4: picks[3]?.spread,
-          pick5: picks[4]?.team,
-          spread5: picks[4]?.spread,
-        }
+    const picksUpdate: Partial<UserPick> = {
+      pick1: picks[0]?.team,
+      spread1: picks[0]?.spread,
+      pick2: picks[1]?.team,
+      spread2: picks[1]?.spread,
+      pick3: picks[2]?.team,
+      spread3: picks[2]?.spread,
+      pick4: picks[3]?.team,
+      spread4: picks[3]?.spread,
+      pick5: picks[4]?.team,
+      spread5: picks[4]?.spread,
+    }
 
-        return picksUpdate
-      }),
-      switchMap(picks => {
-        return this.http.post(`api/UserPicks`, picks)
-      })
-    )
+    const pickRecordToSave = Object.assign(this.lastSavedPick, picksUpdate);
+
+    let url = 'api/UserPicks'
+    let httpRequest = this.http.post(url, pickRecordToSave);
+
+    if (this.lastSavedPick.id) {
+      pickRecordToSave.updatedOn = new Date();
+      url = `${url}/${pickRecordToSave.id}`
+      httpRequest = this.http.put(url, pickRecordToSave)
+    }
+
+    this.lastSavedPick = pickRecordToSave;
+
+    return httpRequest;
+
   }
 
 
