@@ -1,11 +1,11 @@
 import { IUser } from './../../api-authorization/authorize.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
-import { UserPick } from '../model/interfaces/user-pick';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+import { UserPick } from '../model/classes/user-pick';
 
 @Injectable({
   providedIn: 'root'
@@ -25,24 +25,30 @@ export class GamePickerService {
     this.baseUrl = baseUrl;
   }
 
+  getPicks(userId: string, week: number): Observable<UserPick> {
+    return this.http.get(`api/UserPicks/${week}/${userId}`) as Observable<UserPick>
+  }
+
   initCurrentPicks$() {
     const week = 1;
     return this.authService.getUser().pipe(
       take(1),
       map((user: IUser) => user['sub']),
       switchMap((userId: string) => {
-        return this.http.get(`api/UserPicks/${week}/${userId}`) as Observable<UserPick>
+        return this.getPicks(userId, week)
+          // if the user hasn't made picks this week, return empty picks object
+          .pipe(catchError(() => {
+            const emptyPick = new UserPick(userId, week);
+            return of(emptyPick);
+          }))
       }),
-      tap(httpResponse => console.log('res', httpResponse)),
       map((picks: UserPick) => {
         const currentPicks: TeamSelection[] = [];
         for (const prop in picks) {
           if (prop.includes('pick')) {
-            if (picks[prop]) {
               currentPicks.push({
                 team: picks[prop]
               })
-            }
           }
         }
 
