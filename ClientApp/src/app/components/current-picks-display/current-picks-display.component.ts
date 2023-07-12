@@ -1,4 +1,3 @@
-import { ScheduleService } from './../../services/schedule.service';
 import { GamePickerService } from './../../services/game-picker.service';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -15,7 +14,7 @@ export class CurrentPicksDisplayComponent implements OnInit {
 
   picks: TeamSelection[] = [];
 
-  constructor(private gamePickerService: GamePickerService, private scheduleService: ScheduleService) { }
+  constructor(private gamePickerService: GamePickerService) { }
 
   ngOnInit(): void {
 
@@ -31,15 +30,12 @@ export class CurrentPicksDisplayComponent implements OnInit {
     )
   }
 
-  savePicks(): void {
-    // TODO - confirm if we need to unsubscribe here
-    this.subscription.add(
-      this.gamePickerService.savePicks$(this.picks).subscribe()
-    )
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
-  loadSchedule(): void {
-    this.scheduleService.updateSchedule$([]).subscribe(() => console.log('updated'))
+  savePicks(): void {
+    this.gamePickerService.savePicks$(this.picks).subscribe()
   }
 
 }

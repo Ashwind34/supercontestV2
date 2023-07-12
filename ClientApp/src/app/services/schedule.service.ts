@@ -206,11 +206,11 @@ export class ScheduleService {
     {
       week: 2,
       homeTeam: 'PHI',
-      homeSpread: -3,
+      homeSpread: -6,
       homeScore: null,
       homePickValue: null,
       awayTeam: 'DAL',
-      awaySpread: 3,
+      awaySpread: 6,
       awayScore: null,
       awayPickValue: null,
       startTime: new Date('2023-9-20Z00:15:00'),
@@ -220,22 +220,12 @@ export class ScheduleService {
 
   constructor(private http: HttpClient ) { }
 
-  // TODO - replace mock schedule data
-
-  getSchedule() {
-    return this.testSchedule;
-  }
-
   getSchedule$(week?: number): Observable<any> {
     const url = week ? `api/Schedule/${week}` : `api/Schedule`;
     return this.http.get(url);
   }
 
-  // TODO - this takes forever, need to investigate
   updateSchedule$(games: Game[]): Observable<any> {
-    const initGames = this.testSchedule;
-    console.log(initGames)
-    // return of()
-    return this.http.put(this.updateUrl, initGames);
+    return this.http.put(this.updateUrl, games);
   }
 }

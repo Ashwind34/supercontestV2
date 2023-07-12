@@ -24,7 +24,7 @@ export class GamePickerService {
     private http: HttpClient
   ) { }
 
-  getUserPicks(userId: string, week: number): Observable<UserPick> {
+  getUserPicks$(userId: string, week: number): Observable<UserPick> {
     return this.http.get(`api/UserPicks/${week}/${userId}`) as Observable<UserPick>
   }
 
@@ -59,12 +59,13 @@ export class GamePickerService {
 
 
   initCurrentPicks$() {
+    // TODO - implement settings table
     const week = 1;
     return this.authService.getUser().pipe(
       take(1),
       map((user: IUser) => user['sub']),
       switchMap((userId: string) => {
-        return this.getUserPicks(userId, week)
+        return this.getUserPicks$(userId, week)
           // if the user hasn't made picks this week, return empty picks object
           .pipe(catchError(() => {
             const emptyPick = new UserPick(userId, week);

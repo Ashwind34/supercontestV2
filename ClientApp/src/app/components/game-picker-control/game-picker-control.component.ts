@@ -2,7 +2,7 @@ import { GamePickerService } from './../../services/game-picker.service';
 import { Game, Team } from './../../model/interfaces/game';
 import { Component, Input, OnInit } from '@angular/core';
 import { TeamSelection } from 'src/app/model/interfaces/team-selection';
-import { UserPick } from '../../model/classes/user-pick';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game-picker-control',
@@ -12,6 +12,8 @@ import { UserPick } from '../../model/classes/user-pick';
 export class GamePickerControlComponent implements OnInit {
 
   @Input() game: Game
+
+  private subscriptions: Subscription = new Subscription();
 
   isHomeSelected: boolean;
   isAwaySelected: boolean;
@@ -24,27 +26,31 @@ export class GamePickerControlComponent implements OnInit {
   constructor( private gamePickerService: GamePickerService) { }
 
   ngOnInit(): void {
-    this.gamePickerService.getCurrentPicks$().subscribe(
-      currentPicks => {
-        if (currentPicks) {
-          this.isHomeSelected = currentPicks.some(pick => pick?.team === this.game.homeTeam)
-          this.isAwaySelected = currentPicks.some(pick => pick?.team === this.game.awayTeam)
-          this.disableCheckboxes(currentPicks, this.isHomeSelected, this.isAwaySelected)
+    this.subscriptions.add(
+      this.gamePickerService.getCurrentPicks$().subscribe(
+        currentPicks => {
+          if (currentPicks) {
+            this.isHomeSelected = currentPicks.some(pick => pick?.team === this.game.homeTeam)
+            this.isAwaySelected = currentPicks.some(pick => pick?.team === this.game.awayTeam)
+            this.disableCheckboxes(currentPicks, this.isHomeSelected, this.isAwaySelected)
+          }
         }
-      }
+      )
     )
 
-    console.log(this.game.startTime)
 
+    this.initGameTimeData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  initGameTimeData(): void {
     const startDateTime = new Date(this.game.startTime+'Z');
-
-
     this.startDate = startDateTime.toDateString();
     this.startTime = startDateTime.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
   }
-
-
-
 
   disableCheckboxes(picks: TeamSelection[], isHomeSelected: boolean, isAwaySelected: boolean): void {
     this.isHomeDisabled = false;

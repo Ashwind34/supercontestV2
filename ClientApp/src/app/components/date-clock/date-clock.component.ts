@@ -14,11 +14,12 @@ export class DateClockComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // setTimeout(this.setDateTime, 1000)
     this.setDateTime$().subscribe(
       (dateTime) => this.dateTime = dateTime
     )
   }
+
+  // TODO - format date time
 
   setDateTime$(): Observable<string> {
     return timer(0, 1000).pipe(
