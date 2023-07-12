@@ -18,6 +18,9 @@ export class GamePickerControlComponent implements OnInit {
   isHomeDisabled: boolean;
   isAwayDisabled: boolean;
 
+  startDate: string;
+  startTime: string;
+
   constructor( private gamePickerService: GamePickerService) { }
 
   ngOnInit(): void {
@@ -28,15 +31,19 @@ export class GamePickerControlComponent implements OnInit {
           this.isAwaySelected = currentPicks.some(pick => pick?.team === this.game.awayTeam)
           this.disableCheckboxes(currentPicks, this.isHomeSelected, this.isAwaySelected)
         }
-
-        if (this.game.id === 0) {
-          console.log(this.game)
-          console.log(currentPicks)
-        }
-
       }
     )
+
+    console.log(this.game.startTime)
+
+    const startDateTime = new Date(this.game.startTime+'Z');
+
+
+    this.startDate = startDateTime.toDateString();
+    this.startTime = startDateTime.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
   }
+
+
 
 
   disableCheckboxes(picks: TeamSelection[], isHomeSelected: boolean, isAwaySelected: boolean): void {
@@ -44,7 +51,7 @@ export class GamePickerControlComponent implements OnInit {
     this.isAwayDisabled = false;
     const isAllPicksSelected = picks.every(pick => pick.team);
     const rightNow = Date.now();
-    const gameDateTime = new Date(this.game.startDate + ' ' + this.game.startTime);
+    const gameDateTime = new Date(this.game.startTime);
     // const hasGameStarted = (rightNow > gameDateTime.getTime());
     const hasGameStarted = false;
 

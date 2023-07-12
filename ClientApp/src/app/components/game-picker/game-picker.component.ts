@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from '../../model/interfaces/game';
 import { ScheduleService } from '../../services/schedule.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game-picker',
@@ -13,10 +14,16 @@ export class GamePickerComponent implements OnInit {
     private scheduleService: ScheduleService,
   ) { }
 
-  schedule: Game[];
+  schedule;
 
   ngOnInit(): void {
-    this.schedule = this.scheduleService.getSchedule();
+    this.scheduleService.getSchedule$(1).subscribe(schedule => {
+      this.schedule = schedule
+    })
+  }
+
+  getSchedule$(week?: number): Observable<any> {
+    return this.scheduleService.getSchedule$(week)
   }
 
 }

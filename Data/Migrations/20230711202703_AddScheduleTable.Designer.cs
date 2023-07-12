@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using supercontestV2.Data;
 
@@ -11,9 +12,10 @@ using supercontestV2.Data;
 namespace supercontestV2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711202703_AddScheduleTable")]
+    partial class AddScheduleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -384,26 +386,26 @@ namespace supercontestV2.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AwayPickValue")
+                    b.Property<int>("AwayPickValue")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AwayScore")
+                    b.Property<int>("AwayScore")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AwaySpread")
+                    b.Property<int>("AwaySpread")
                         .HasColumnType("int");
 
                     b.Property<string>("AwayTeam")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float?>("HomePickValue")
+                    b.Property<float>("HomePickValue")
                         .HasColumnType("real");
 
-                    b.Property<int?>("HomeScore")
+                    b.Property<int>("HomeScore")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HomeSpread")
+                    b.Property<int>("HomeSpread")
                         .HasColumnType("int");
 
                     b.Property<string>("HomeTeam")

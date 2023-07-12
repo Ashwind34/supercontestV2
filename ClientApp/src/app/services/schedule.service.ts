@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Game } from '../model/interfaces/game';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
 
-  private testSchedule: Game[] = [
+  private updateUrl = 'api/Schedule/bulk'
+
+  private testSchedule = [
     {
-      id: 0,
       week: 1,
       homeTeam: 'LAR',
       homeSpread: 3,
@@ -18,11 +21,9 @@ export class ScheduleService {
       awaySpread: -3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/8/2022',
-      startTime: '8:20 PM',
+      startTime: new Date('2023-9-8Z00:20:00'),
     },
     {
-      id: 1,
       week: 1,
       homeTeam: 'ATL',
       homeSpread: 3,
@@ -32,11 +33,9 @@ export class ScheduleService {
       awaySpread: -3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 2,
       week: 1,
       homeTeam: 'CIN',
       homeSpread: -7,
@@ -46,11 +45,9 @@ export class ScheduleService {
       awaySpread: 7,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 4,
       week: 1,
       homeTeam: 'DET',
       homeSpread: 10,
@@ -60,11 +57,9 @@ export class ScheduleService {
       awaySpread: -10,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 5,
       week: 1,
       homeTeam: 'CHI',
       homeSpread: 6,
@@ -74,11 +69,9 @@ export class ScheduleService {
       awaySpread: -6,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 6,
       week: 1,
       homeTeam: 'MIA',
       homeSpread: -3,
@@ -88,11 +81,9 @@ export class ScheduleService {
       awaySpread: 3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 7,
       week: 1,
       homeTeam: 'NYJ',
       homeSpread: -7,
@@ -102,11 +93,9 @@ export class ScheduleService {
       awaySpread: 7,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 8,
       week: 1,
       homeTeam: 'WAS',
       homeSpread: -4,
@@ -116,11 +105,9 @@ export class ScheduleService {
       awaySpread: 4,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 9,
       week: 1,
       homeTeam: 'CAR',
       homeSpread: -8,
@@ -130,11 +117,9 @@ export class ScheduleService {
       awaySpread: 8,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 10,
       week: 1,
       homeTeam: 'HOU',
       homeSpread: 9,
@@ -144,11 +129,9 @@ export class ScheduleService {
       awaySpread: -9,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '1:00 PM',
+      startTime: new Date('2023-9-11Z20:00:00'),
     },
     {
-      id: 11,
       week: 1,
       homeTeam: 'TEN',
       homeSpread: -3,
@@ -158,11 +141,9 @@ export class ScheduleService {
       awaySpread: 3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '4:25 PM',
+      startTime: new Date('2023-9-11Z23:25:00'),
     },
     {
-      id: 12,
       week: 1,
       homeTeam: 'MIN',
       homeSpread: -3,
@@ -172,11 +153,9 @@ export class ScheduleService {
       awaySpread: 3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '4:25 PM',
+      startTime: new Date('2023-9-11Z23:25:00'),
     },
     {
-      id: 13,
       week: 1,
       homeTeam: 'ARI',
       homeSpread: 3,
@@ -186,11 +165,9 @@ export class ScheduleService {
       awaySpread: -3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '4:25 PM',
+      startTime: new Date('2023-9-11Z23:25:00'),
     },
     {
-      id: 14,
       week: 1,
       homeTeam: 'LAC',
       homeSpread: -6,
@@ -200,11 +177,9 @@ export class ScheduleService {
       awaySpread: 6,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '4:25 PM',
+      startTime: new Date('2023-9-11Z23:25:00'),
     },
     {
-      id: 15,
       week: 1,
       homeTeam: 'DAL',
       homeSpread: -4,
@@ -214,11 +189,9 @@ export class ScheduleService {
       awaySpread: 4,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/11/2022',
-      startTime: '8:20 PM',
+      startTime: new Date('2023-9-12Z00:20:00'),
     },
     {
-      id: 16,
       week: 1,
       homeTeam: 'SEA',
       homeSpread: -3,
@@ -228,17 +201,41 @@ export class ScheduleService {
       awaySpread: 3,
       awayScore: null,
       awayPickValue: null,
-      startDate: '9/12/2022',
-      startTime: '8:15 PM',
+      startTime: new Date('2023-9-13Z00:15:00'),
+    },
+    {
+      week: 2,
+      homeTeam: 'PHI',
+      homeSpread: -3,
+      homeScore: null,
+      homePickValue: null,
+      awayTeam: 'DAL',
+      awaySpread: 3,
+      awayScore: null,
+      awayPickValue: null,
+      startTime: new Date('2023-9-20Z00:15:00'),
     },
   ]
 
 
-  constructor() { }
+  constructor(private http: HttpClient ) { }
 
   // TODO - replace mock schedule data
 
-  getSchedule(): Game[] {
+  getSchedule() {
     return this.testSchedule;
+  }
+
+  getSchedule$(week?: number): Observable<any> {
+    const url = week ? `api/Schedule/${week}` : `api/Schedule`;
+    return this.http.get(url);
+  }
+
+  // TODO - this takes forever, need to investigate
+  updateSchedule$(games: Game[]): Observable<any> {
+    const initGames = this.testSchedule;
+    console.log(initGames)
+    // return of()
+    return this.http.put(this.updateUrl, initGames);
   }
 }
