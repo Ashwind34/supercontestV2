@@ -15,6 +15,8 @@ namespace supercontestV2.Data
         public virtual DbSet<UserPick> UserPicks { get; set; }
         public virtual DbSet<Game> Schedule { get; set; }
 
+        public virtual DbSet<AppSettings> AppSettings { get; set; }
+
 
     }
 }

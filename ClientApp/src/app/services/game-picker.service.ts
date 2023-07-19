@@ -7,6 +7,7 @@ import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { UserPick } from '../model/classes/user-pick';
 import { Team } from '../model/interfaces/game';
+import { AppSettingsService } from './app-settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class GamePickerService {
 
   constructor(
     private authService: AuthorizeService,
-    private http: HttpClient
+    private http: HttpClient,
+    private settingsService: AppSettingsService
   ) { }
 
   getUserPicks$(userId: string, week: number): Observable<UserPick> {
@@ -59,8 +61,7 @@ export class GamePickerService {
 
 
   initCurrentPicks$() {
-    // TODO - implement settings table
-    const week = 1;
+    const week = this.settingsService.getSettings().currentWeek;
     return this.authService.getUser().pipe(
       take(1),
       map((user: IUser) => user['sub']),
