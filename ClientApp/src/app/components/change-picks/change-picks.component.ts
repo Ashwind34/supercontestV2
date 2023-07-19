@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { GamePickerService } from './../../services/game-picker.service';
 
 
@@ -10,7 +9,7 @@ import { GamePickerService } from './../../services/game-picker.service';
 })
 export class ChangePicksComponent implements OnInit {
 
-  constructor(private gamePickerService: GamePickerService, private authorizeService: AuthorizeService) { }
+  constructor(private gamePickerService: GamePickerService) { }
 
   ngOnInit(): void { }
 
