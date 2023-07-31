@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
-import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
@@ -17,6 +16,7 @@ import { CurrentPicksDisplayComponent } from './components/current-picks-display
 import { LogoImageComponent } from './components/logo-image/logo-image.component';
 import { DateClockComponent } from './components/date-clock/date-clock.component';
 import { AppSettingsService } from '@services/app-settings.service';
+import { AdminComponent } from './components/admin/admin.component';
 
 function initSettings(settingsService: AppSettingsService) {
   return () => settingsService.initSettings$().subscribe();
@@ -27,13 +27,13 @@ function initSettings(settingsService: AppSettingsService) {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    FetchDataComponent,
     ChangePicksComponent,
     GamePickerComponent,
     GamePickerControlComponent,
     CurrentPicksDisplayComponent,
     LogoImageComponent,
-    DateClockComponent
+    DateClockComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,7 +44,7 @@ function initSettings(settingsService: AppSettingsService) {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'change-picks', component: ChangePicksComponent, canActivate: [AuthorizeGuard] },
-      { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'admin', component: AdminComponent, canActivate: [AuthorizeGuard] },
     ])
   ],
   providers: [
