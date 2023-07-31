@@ -1,5 +1,5 @@
 import { IUser } from './../../api-authorization/authorize.service';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TeamSelection, TeamSelectionEvent } from '../model/interfaces/team-selection';
@@ -61,28 +61,34 @@ export class GamePickerService {
 
 
   initCurrentPicks$() {
-    const week = this.settingsService.getSettings().currentWeek;
-    return this.authService.getUser().pipe(
+    const getUserId$ = this.authService.getUser().pipe(
       take(1),
-      map((user: IUser) => user['sub']),
-      switchMap((userId: string) => {
-        return this.getUserPicks$(userId, week)
-          // if the user hasn't made picks this week, return empty picks object
-          .pipe(catchError(() => {
-            const emptyPick = new UserPick(userId, week);
-            return of(emptyPick);
-          }))
-      }),
-      map((pickRecord: UserPick) => {
-        this.lastSavedPick = pickRecord;
-        const currentPicks = this.parseUserPick(pickRecord);
-        return currentPicks;
-      }),
-      tap((currentPicks: TeamSelection[]) => {
-        this.currentPicks$.next(currentPicks);
-      })
+      map((user: IUser) => user['sub'])
+    );
 
-    )
+    const getSettings$ = this.settingsService.getSettings$().pipe(take(1));
+
+    return forkJoin({ userId: getUserId$, settings: getSettings$})
+      .pipe(
+        switchMap((allData) => {
+          const userId = allData.userId;
+          const week = allData.settings.currentWeek;
+          return this.getUserPicks$(userId, week)
+            // if the user hasn't made picks this week, return empty picks object
+            .pipe(catchError(() => {
+              const emptyPick = new UserPick(userId, week);
+              return of(emptyPick);
+            }))
+        }),
+        map((pickRecord: UserPick) => {
+          this.lastSavedPick = pickRecord;
+          const currentPicks = this.parseUserPick(pickRecord);
+          return currentPicks;
+        }),
+        tap((currentPicks: TeamSelection[]) => {
+          this.currentPicks$.next(currentPicks);
+        })
+      )
   }
 
   getCurrentPicks$() {

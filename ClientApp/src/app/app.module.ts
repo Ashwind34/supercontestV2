@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -16,6 +16,11 @@ import { GamePickerControlComponent } from './components/game-picker-control/gam
 import { CurrentPicksDisplayComponent } from './components/current-picks-display/current-picks-display.component';
 import { LogoImageComponent } from './components/logo-image/logo-image.component';
 import { DateClockComponent } from './components/date-clock/date-clock.component';
+import { AppSettingsService } from '@services/app-settings.service';
+
+function initSettings(settingsService: AppSettingsService) {
+  return () => settingsService.initSettings$().subscribe();
+}
 
 @NgModule({
   declarations: [
@@ -43,7 +48,8 @@ import { DateClockComponent } from './components/date-clock/date-clock.component
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: APP_INITIALIZER, useFactory: initSettings, deps: [ AppSettingsService ], multi: true }
   ],
   bootstrap: [AppComponent]
 })
