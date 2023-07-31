@@ -9,5 +9,7 @@ namespace supercontestV2.Models
         public string LastName { get; set; }  
         public Team FavTeam { get; set; }
 
+        public bool IsAdmin { get; set; }
+
     }
 }
