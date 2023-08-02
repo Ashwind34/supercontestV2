@@ -32,7 +32,7 @@ namespace supercontestV2.Controllers
             return await _context.UserPicks.ToListAsync();
         }
 
-        // GET: api/UserPicks/5
+        // GET: api/UserPicks/<id>
         [HttpGet("{id}")]
         public async Task<ActionResult<UserPick>> GetUserPick(int? id)
         {
@@ -50,7 +50,7 @@ namespace supercontestV2.Controllers
             return userPick;
         }
 
-        // GET: api/UserPicks/5
+        // GET: api/UserPicks/1/<id>
         [HttpGet("{week}/{UserId}")]
         public async Task<ActionResult<UserPick>> GetUserPickByWeek(int week, string UserId)
         {
