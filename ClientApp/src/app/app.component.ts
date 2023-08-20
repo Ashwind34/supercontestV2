@@ -13,11 +13,5 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.settingsService.initSettings$().subscribe();
-    this.isAdmin$();
-  }
-
-
-  isAdmin$() {
-    this.settingsService.isAdmin$().subscribe(x => console.log('x', x))
   }
 }

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AppSettingsService } from '@services/app-settings.service';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav-menu',
@@ -6,6 +9,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
+
+  isAdmin$: Observable<boolean>
+
+  constructor(private settingsService: AppSettingsService) {
+    this.setAdmin$();
+  }
+
   isExpanded = false;
 
   collapse() {
@@ -14,5 +24,9 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  setAdmin$(): void {
+    this.isAdmin$ = this.settingsService.isAdmin$();
   }
 }
