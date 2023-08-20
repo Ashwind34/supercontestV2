@@ -30,7 +30,6 @@ export class GamePickerService {
     return this.http.get(`api/UserPicks/${week}/${userId}`) as Observable<UserPick>
   }
 
-
   parseUserPick(pick: UserPick): TeamSelection[] {
     const selectedTeams: TeamSelection[] = [
       {
@@ -63,6 +62,7 @@ export class GamePickerService {
   initCurrentPicks$() {
     const getUserId$ = this.authService.getUser().pipe(
       take(1),
+      tap(user => console.log(user)),
       map((user: IUser) => user['sub'])
     );
 

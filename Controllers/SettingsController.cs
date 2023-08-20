@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using supercontestV2.Data;
@@ -16,9 +18,12 @@ namespace supercontestV2.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public SettingsController(ApplicationDbContext context)
+        private UserManager<ApplicationUser> _userManager;
+
+        public SettingsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Settings
@@ -120,5 +125,14 @@ namespace supercontestV2.Controllers
         {
             return (_context.AppSettings?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        [HttpGet("isAdmin/{uid}")]
+        public async Task<ActionResult<bool>> isUserAdmin(string uid)
+        {
+            var user = await _userManager.FindByIdAsync(uid);
+            return await _userManager.IsInRoleAsync(user, "Admin");
+            
+        }
+
     }
 }
