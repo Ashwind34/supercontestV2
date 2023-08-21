@@ -16,7 +16,6 @@ import { CurrentPicksDisplayComponent } from './components/current-picks-display
 import { LogoImageComponent } from './components/logo-image/logo-image.component';
 import { DateClockComponent } from './components/date-clock/date-clock.component';
 import { AppSettingsService } from '@services/app-settings.service';
-import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
 
 function initSettings(settingsService: AppSettingsService) {
@@ -34,7 +33,6 @@ function initSettings(settingsService: AppSettingsService) {
     CurrentPicksDisplayComponent,
     LogoImageComponent,
     DateClockComponent,
-    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,7 +43,13 @@ function initSettings(settingsService: AppSettingsService) {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'change-picks', component: ChangePicksComponent, canActivate: [AuthorizeGuard] },
-      { path: 'admin', component: AdminComponent, canActivate: [AuthorizeGuard, AdminGuard] },
+      {
+        path: 'admin',
+        canLoad: [AdminGuard],
+        loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
+      },
+      { path: '**', component: HomeComponent },
+
     ])
   ],
   providers: [

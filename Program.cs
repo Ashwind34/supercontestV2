@@ -33,7 +33,6 @@ namespace supercontestV2
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentityServer()
-                // .AddProfileService<ProfileService>()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
             builder.Services.AddAuthentication()

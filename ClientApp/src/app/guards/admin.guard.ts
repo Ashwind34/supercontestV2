@@ -14,4 +14,8 @@ export class AdminGuard implements CanActivate {
     return this.settingsService.isAdmin$();
   }
 
+  canLoad(): Observable<boolean> {
+    return this.canActivate();
+  }
+
 }
