@@ -1,6 +1,7 @@
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -72,6 +73,8 @@ namespace supercontestV2
 
             app.MapFallbackToFile("index.html"); ;
 
+            // create admin role and add to use
+
             using (var servicesScope = app.Services.CreateScope())
             {
                 var roleManager = servicesScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -87,7 +90,10 @@ namespace supercontestV2
                 }
 
                 var user = await userManager.FindByEmailAsync("ahester34@gmail.com");
-                await userManager.AddToRoleAsync(user, "Admin");
+                if (user != null && !await userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    await userManager.AddToRoleAsync(user, "Admin");
+                }
 
 
             }
@@ -97,40 +103,6 @@ namespace supercontestV2
 
     }
 
-    // TODO - delete all of this shit.  create an admin route that does all admin stuff. use userManager.GetRolesAsync
-
-    public class ProfileService : IProfileService
-    {
-        protected UserManager<ApplicationUser> _userManager;
-
-        public ProfileService(UserManager<ApplicationUser> userManager)
-        {
-            _userManager = userManager;
-        }
-
-        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
-        {
-            //>Processing
-            var user = await _userManager.GetUserAsync(context.Subject);
-
-            var claims = await _userManager.GetClaimsAsync(user);
-
-        //    var claims = new List<Claim>
-        //{
-        //    new Claim("FullName", user.Claims),
-        //};
-
-            context.IssuedClaims.AddRange(claims);
-        }
-
-        public async Task IsActiveAsync(IsActiveContext context)
-        {
-            //>Processing
-            var user = await _userManager.GetUserAsync(context.Subject);
-
-            context.IsActive = (user != null);
-        }
-    }
 }
 
 

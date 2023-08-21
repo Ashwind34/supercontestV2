@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAppSettings } from '../model/interfaces/app-settings';
 import { Observable, ReplaySubject, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { distinct, map, switchMap, tap } from 'rxjs/operators';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 
 @Injectable({
@@ -26,6 +26,7 @@ export class AppSettingsService {
 
   isAdmin$(): Observable<any> {
     return this.authService.getUser().pipe(
+      distinct(user => user?.['sub']),
       map(user => user?.['sub']),
       switchMap(userId => {
         return userId ? this.http.get(`api/Settings/isAdmin/${userId}`) : of(false);

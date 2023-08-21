@@ -62,7 +62,6 @@ export class GamePickerService {
   initCurrentPicks$() {
     const getUserId$ = this.authService.getUser().pipe(
       take(1),
-      tap(user => console.log(user)),
       map((user: IUser) => user['sub'])
     );
 
